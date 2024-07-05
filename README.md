@@ -3,7 +3,9 @@
 This repository contains the configuration files for my homelab.
 
 ## Hardware
- ![Homelab Hardware](/doc/images/homelab.jpg)
+
+<img src="./doc/images/homelab.jpg" width="400">
+
 - 4 × Trigkey Green G4 Mini PC
     - CPU: Intel® Processor N100 @ 3.40GHz
     - RAM: 16GB
