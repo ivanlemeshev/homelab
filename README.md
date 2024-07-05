@@ -2,6 +2,9 @@
 
 This repository contains the configuration files for my homelab.
 
+The purpose of this homelab is to provide a platform for learning and testing
+various technologies.
+
 ## Hardware
 
 <img src="./doc/images/homelab.jpg" width="400">
