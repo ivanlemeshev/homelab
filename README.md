@@ -17,7 +17,7 @@ The main areas of interest are:
 
 <img src="./doc/images/homelab.jpg" width="400">
 
-- 4 × Trigkey Green G4 Mini PC
+- 3 × Trigkey Green G4 Mini PC
     - CPU: Intel® Processor N100 @ 3.40GHz
     - RAM: 16GB
     - SSD: 512GB
