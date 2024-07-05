@@ -5,6 +5,7 @@ It is an evolving project that I use to learn, test, and experiment with new
 technologies.
 
 The main areas of interest are:
+- System Administration
 - Automation
 - Virtualization
 - Containerization
