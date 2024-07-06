@@ -43,8 +43,11 @@ homelab devices.
     cd homelab
     ```
 
-3. Update the system and install the required packages:
+3. Create a new file `ansible/hosts.ini` based on the `ansible/hosts.ini.example`
+   specifying the Proxmox hosts and their IP address there.
+
+4. Init homelab environment (default 1 node):
 
     ```bash
-    ./scripts/prepare-control-workstation.sh
+    ./inti.sh --nodes 3
     ```
