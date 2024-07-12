@@ -1,0 +1,11 @@
+- name: Generate SSH key pair
+  community.crypto.openssh_keypair:
+    path: ~/.ssh/proxmox_homelab_key_id_ed25519
+    type: ed25519
+    mode: 0600
+    passphrase: "{{ ssh_key_passphrase }}"
+  register: ssh_key
+
+- name: Display the generated public key
+  ansible.builtin.debug:
+    msg: "{{ ssh_key.public_key }}"
