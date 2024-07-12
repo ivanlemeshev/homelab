@@ -5,30 +5,46 @@ set -e
 echo "Creating ansible vault secrets file"
 
 vault_password="./ansible/vault_password"
-filename="./ansible/secrets.yml"
 
-if [[ ! -e "${filename}" ]]; then
-    nodes="1"
+nodes="1"
 
-    # Parse command-line arguments
-    while [[ "$#" -gt 0 ]]; do
-        case $1 in
-            --nodes) nodes="$2"; shift ;;  # Get the value for --nodes
-            *) echo "Unknown parameter passed: $1"; exit 1 ;;
-        esac
-        shift
-    done
+# Parse command-line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --nodes) nodes="$2"; shift ;;  # Get the value for --nodes
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
 
-    for (( i=1; i<=$((nodes)); i++ )); do
+for (( i=1; i<=$((nodes)); i++ )); do
+    directory="./ansible/host_vars/pve_${i}"
+    [[ -d "${directory}" ]] || mkdir -p "${directory}"
+
+    filename="${directory}/vault.yml"
+
+    if [[ ! -e "${filename}" ]]; then
         pve_root_password=$(pwgen --secure --capitalize --numerals --symbols 128 1)
         {
-            echo "pve_${i}_password: |"
+            echo "root_password: |"
             echo "  ${pve_root_password}"
-            echo "pve_${i}_password_hash: |"
+            echo "root_password_hash: |"
             echo "  $(echo "${pve_root_password}" | mkpasswd --stdin --method=sha-512)"
         } >> "${filename}"
-    done
 
+        ansible-vault encrypt --vault-password-file="${vault_password}" "${filename}"
+        echo "The vault secrets is saved in ${filename}"
+    else
+        echo "The file ${filename} exists"
+    fi
+done
+
+directory="./ansible/host_vars/localhost"
+[[ -d "${directory}" ]] || mkdir -p "${directory}"
+
+filename="${directory}/vault.yml"
+
+if [[ ! -e "${filename}" ]]; then
     ssh_key_passphrase=$(pwgen --secure --capitalize --numerals --symbols 128 1)
     {
         echo "ssh_key_passphrase: |"

@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
+  gather_facts: no
   vars_files:
-    - secrets.yml
+    - host_vars/localhost/vault.yml
   roles:
     - generate_ssh_key_pair
