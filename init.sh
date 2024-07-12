@@ -19,4 +19,5 @@ echo "Initialize the host and ${nodes} Proxmox node(s)"
 ./scripts/generate-vault-password-file.sh
 ./scripts/create-vault-secrets-file.sh --nodes "${nodes}"
 
-# ansible-playbook -i ansible/hosts.ini ansible/main.yml --vault-password-file=ansible/vault_password.txt
+ansible-playbook -i ansible/hosts.ini ansible/main.yml \
+    --vault-password-file=ansible/vault_password

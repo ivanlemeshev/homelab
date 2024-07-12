@@ -20,10 +20,20 @@ if [[ ! -e "${filename}" ]]; then
     done
 
     for (( i=1; i<=$((nodes)); i++ )); do
-        pve_root_password=$(pwgen --secure --capitalize --numerals --symbols 12 1)
-        echo "pve_${i}_password: $pve_root_password" >> "${filename}"
-        echo "pve_${i}_password_hash: $(echo "${pve_root_password}" | mkpasswd --stdin --method=sha-512)" >> "${filename}"
+        pve_root_password=$(pwgen --secure --capitalize --numerals --symbols 128 1)
+        {
+            echo "pve_${i}_password: |"
+            echo "  ${pve_root_password}"
+            echo "pve_${i}_password_hash: |"
+            echo "  $(echo "${pve_root_password}" | mkpasswd --stdin --method=sha-512)"
+        } >> "${filename}"
     done
+
+    ssh_key_passphrase=$(pwgen --secure --capitalize --numerals --symbols 128 1)
+    {
+        echo "ssh_key_passphrase: |"
+        echo "  ${ssh_key_passphrase}"
+    } >> "${filename}"
 
     ansible-vault encrypt --vault-password-file="${vault_password}" "${filename}"
     echo "The vault secrets is saved in ${filename}"
